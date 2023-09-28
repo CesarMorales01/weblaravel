@@ -1,0 +1,17 @@
+{
+    "name": "Eloissa ropa femenina",
+    "short_name": "Eloissa",
+    "start_url": "/index.php",
+    "background_color": "#ffffff",
+    "description": "Eloissa ropa femenina",
+    "display": "standalone",
+    "theme_color": "#ffffff",
+    "icons": [
+        {
+            "src": "icon.PNG",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
