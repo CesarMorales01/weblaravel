@@ -21,11 +21,20 @@ const Product = (params) => {
   const [productoSugeridos, setProductosSugeridos] = useState([])
   const [index, setIndex] = useState(0)
   const [descripcion, setDescripcion] = useState([])
+  const [agotado, setAgotado] = useState(false)
 
   useEffect(() => {
+    validarAgotado()
     procesarDatos()
     functionSetProductosSugeridos()
   }, [])
+
+  function validarAgotado() {
+    if (params.producto.cantidad == '0') {
+      setAgotado(true)
+      setCantidad(0)
+    }
+  }
 
   function sweetAlert(mensaje) {
     Swal.fire({
@@ -42,9 +51,9 @@ const Product = (params) => {
     if (params.producto.descripcion != null && descripcion.length == 0) {
       setDescripcion(params.producto.descripcion.split("."))
     }
-    setTimeout(() => {
+    if (agotado != true) {
       functionSetPrecioAntes()
-    }, 100);
+    }
   }
 
   const handleSelect = (selectedIndex, e) => {
@@ -72,10 +81,9 @@ const Product = (params) => {
       for (let x = 0; x < params.productos.length; x++) {
         if (producto.categoria == params.productos[x].categoria) {
           let pojo = new PojoProducto(params.productos[x].nombre, params.productos[x].id)
+          pojo.setCantidad(params.productos[x].cantidad)
           pojo.setImagen(params.productos[x].imagen.nombre_imagen)
-          // darle formato al precio
-          let precio_format = new Intl.NumberFormat("de-DE").format(params.productos[x].valor)
-          pojo.setPrecio("$ " + precio_format)
+          pojo.setValor(params.productos[x].valor)
           pojo.setRef(params.productos[x].referencia)
           array.push(pojo)
         }
@@ -135,14 +143,20 @@ const Product = (params) => {
   }
 
   function masCant() {
-    if (params.producto.cantidad != null) {
-      if (params.producto.cantidad < cantidad + 1) {
-        return
-      } else {
-        setCant()
-      }
+    if (agotado) {
+      return
     } else {
-      setCant()
+      if (params.producto.cantidad == null) {
+        setCant()
+      } else {
+        if (params.producto.cantidad == '') {
+          setCant()
+        } else {
+          if (params.producto.cantidad >= cantidad + 1) {
+            setCant()
+          }
+        }
+      }
     }
   }
 
@@ -228,7 +242,7 @@ const Product = (params) => {
                     <h1 id="titulo_producto" style={{ fontSize: '1.4em', fontWeight: 'bold' }}>{producto.nombre}</h1>
                     <br />
                     <h3 id="tv_precio_antes" style={{ color: 'red', textDecoration: 'line-through' }} className="fontSizePreciosSuggested"></h3>
-                    <h3 id="tv_precio" style={{ fontSize: '1.4em', fontWeight: 'bold' }}>{producto.cantidad == 0 ? '-' : '$ ' + glob.formatNumber(producto.valor)}</h3>
+                    <h3 id="tv_precio" style={{ fontSize: '1.4em', fontWeight: 'bold' }}>{agotado ? '-' : '$ ' + glob.formatNumber(producto.valor)}</h3>
                     <br />
                     <div className="container">
                       <div className="row">
@@ -255,9 +269,9 @@ const Product = (params) => {
                     <br />
                     <h3 id="tv_llega" ></h3>
                     {/*formulario producto */}
-                    <button id='btnComprar' type='button' onClick={checkUsuario} style={{ width: '94%', backgroundColor: producto.cantidad == 0 ? 'gray' : 'green' }}
-                      className="btn btn-success btn-lg" disabled={producto.cantidad == 0 ? true : false}>
-                      {producto.cantidad == 0 ? 'Producto agotado' : 'Agregar al carrito'}
+                    <button id='btnComprar' type='button' onClick={checkUsuario} style={{ width: '94%', backgroundColor: agotado ? 'gray' : 'green' }}
+                      className="btn btn-success btn-lg" disabled={agotado ? true : false}>
+                      {agotado ? 'Producto agotado' : 'Agregar al carrito'}
                       <i className="fa-solid fa-cart-plus fa-lg" style={{ marginLeft: '1em' }}></i>
                     </button>
                     <button id='btnLoading' style={{ display: 'none', backgroundColor: 'green', width: '94%' }} className="btn btn-primary btn-lg" type="button" disabled>

@@ -109,7 +109,7 @@ const CheckOut = (params) => {
             }
         }, 1000)
     }
-    console.log(params)
+
     function registrarCompra(ref) {
         loadingOn()
         const url = params.globalVars.thisUrl + "shopping/registrar/compra?_token=" + params.token

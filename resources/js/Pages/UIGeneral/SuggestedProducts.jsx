@@ -1,6 +1,8 @@
 import React from 'react'
+import GlobalFunctions from '../services/GlobalFunctions';
 
 const SuggestedProducts = (params) => {
+    const glob = new GlobalFunctions()
 
     function removeLoad(e) {
         document.getElementById('load' + e).style.display = 'none'
@@ -8,6 +10,14 @@ const SuggestedProducts = (params) => {
 
     function goProduct(e) {
         window.location.href = params.globalVars.thisUrl + 'product/' + e
+    }
+
+    function validarAgotado(cantidad) {
+        let agotado = false
+        if (cantidad == '0') {
+            agotado = true
+        }
+        return agotado
     }
 
     return (
@@ -23,8 +33,8 @@ const SuggestedProducts = (params) => {
                                 <span style={{ marginLeft: '1em' }} id={'load' + item.codigo} className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <img style={{ padding: '0.5em', width: '100%', height: 'auto' }} onLoad={() => removeLoad(item.codigo)} src={params.globalVars.urlRoot + 'Images/Products/' + item.imagen} className="card-img-top rounded centerImgCarousel" />
                                 <h5 style={{ margin: '0.5em', fontSize: '1.3em' }} className='textAlignCenter superTitulo' >{item.nombre}</h5>
-                                <p style={{ color: item.precio == '$ 0' ? 'gray' : 'black' }} className="fontSizePreciosSuggested">
-                                    {item.cantidad == '0' ? 'Agotado' : item.precio}
+                                <p style={{ textAlign: 'center', margin: '0.5em', color: validarAgotado(item.cantidad) ? 'gray' : '' }} >
+                                    {validarAgotado(item.cantidad) ? 'Agotado' : '$' + glob.formatNumber(item.valor)}
                                 </p>
                             </div>
                         )
