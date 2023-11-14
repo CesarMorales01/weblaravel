@@ -26,10 +26,10 @@ const SuggestedProducts = (params) => {
                 <h5 style={{ fontSize: '1.4em', padding: '0.5em' }} className='textAlignCenter superTitulo'>{params.categoria}</h5>
             </div>
             <div style={{ marginTop: '0.5em' }} >
-                <div className="row">
+                <div className="row align-items-center">
                     {params.productos.map((item, index) => {
                         return (
-                            <div key={index} id={item.codigo} onClick={() => goProduct(item.codigo)} className="col-lg-3 col-md-4 col-sm-6 col-6 card card-flyer cursorPointer">
+                            <div key={index} id={item.codigo} onClick={() => goProduct(item.codigo)} className="col-lg-3 col-md-4 col-sm-6 col-6 card-flyer cursorPointer rounded">
                                 <span style={{ marginLeft: '1em' }} id={'load' + item.codigo} className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <img style={{ padding: '0.5em', width: '100%', height: 'auto' }} onLoad={() => removeLoad(item.codigo)} src={params.globalVars.urlRoot + 'Images/Products/' + item.imagen} className="card-img-top rounded centerImgCarousel" />
                                 <h5 style={{ margin: '0.5em', fontSize: '1.3em' }} className='textAlignCenter superTitulo' >{item.nombre}</h5>

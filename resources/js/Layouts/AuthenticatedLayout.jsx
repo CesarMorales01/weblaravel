@@ -77,7 +77,7 @@ export default function Authenticated({ user, header, children, info, globalVars
                                 <Link id='linkHome' href={route('index')}>
                                     <img className='img-fuild rounded' width="60em" height="60em" src={info.logo == '' ? globalVars.urlRoot + 'Images/Config/noPreview.jpg' : globalVars.urlRoot + "Images/Products/" + info.logo} />
                                 </Link>
-                                <span onClick={goHome} style={{ color: 'white', cursor: 'pointer', marginLeft: '0.2em' }}>{info.nombre}</span>
+                                <span onClick={goHome} style={{ color: 'white', cursor: 'pointer', marginLeft: '0.2em', color: info.color_letra_navbar!='' ? info.color_letra_navbar : 'black' }}>{info.nombre}</span>
                             </div>
                         </div>
 

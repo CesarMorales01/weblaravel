@@ -107,22 +107,22 @@ const ShoppingCart = (params) => {
         }
     }
 
-    function masCant(id, cant, index){
-        let findProduct=null;
+    function masCant(id, cant, index) {
+        let findProduct = null;
         params.productos.forEach(element => {
-            if(element.id==id){
-                findProduct=element
+            if (element.id == id) {
+                findProduct = element
             }
         });
         if (findProduct.cantidad != null) {
             if (findProduct.cantidad < parseInt(cant) + 1) {
-              return
+                return
             } else {
-              setCant(id, cant, index)
+                setCant(id, cant, index)
             }
-          } else {
+        } else {
             setCant(id, cant, index)
-          }
+        }
     }
 
     function setCant(id, cant, index) {
@@ -239,15 +239,22 @@ const ShoppingCart = (params) => {
     }
 
     function goWhats() {
-        let href = "https://api.whatsapp.com/send?phone=057" + params.info.telefonos[0].telefono + "&text=Hola! Tengo un problema con mi carrito de compras!";
+        let href = "https://api.whatsapp.com/send?phone=57" + params.info.telefonos[0].telefono + "&text=Hola! Tengo un problema con mi carrito de compras!";
         window.open(href, "nuevo", "directories=no, location=no, menubar=no, scrollbars=yes, statusbar=no, tittlebar=no, width=800, height=600");
     }
 
     function cargarInfoToPay() {
+        let redirect = false
         if (params.datosCliente != null) {
-            setCheckOut(true)
+            if (params.datosCliente.ciudad != null) {
+                setCheckOut(true)
+            } else {
+                redirect = true
+            }
         } else {
-            // cookie para redireccionar despues de actualizar profile....
+            redirect = true
+        }
+        if (redirect) {
             alertCiudadTimeOut('No se ha encontrado la ciudad de envio!')
             setTimeout(() => {
                 goProfile()
@@ -321,7 +328,7 @@ const ShoppingCart = (params) => {
                                                     <div style={{ padding: '0.5vh' }} className="row align-items-center">
                                                         {/*div img*/}
                                                         <div className="col-2"  >
-                                                            <img className="img-fluid rounded" style={{ height: 'auto', width: window.screen.width > 600 ? '60%' : '100%' }} src={params.globalVars.urlRoot + 'Images/Products/'+ item.imagen} />
+                                                            <img className="img-fluid rounded" style={{ height: 'auto', width: window.screen.width > 600 ? '60%' : '100%' }} src={params.globalVars.urlRoot + 'Images/Products/' + item.imagen} />
                                                         </div>
                                                         {/*div titulo*/}
                                                         <div className="col-7"  >

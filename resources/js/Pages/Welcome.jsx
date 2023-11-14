@@ -73,7 +73,7 @@ export default function Welcome(params) {
     }
 
     function goWhats() {
-        let href = "https://api.whatsapp.com/send?phone=057" + params.info.telefonos[0].telefono + "&text=Hola! He visitado tu página y me gustaria preguntar algo!";
+        let href = "https://api.whatsapp.com/send?phone=57" + params.info.telefonos[0].telefono + "&text=Hola! He visitado tu página y me gustaria preguntar algo!";
         window.open(href, "nuevo", "directories=no, location=no, menubar=no, scrollbars=yes, statusbar=no, tittlebar=no, width=800, height=600");
     }
 
@@ -106,13 +106,18 @@ export default function Welcome(params) {
         }
         matrix[i] = array2
     }
+
+    function goCategoria(cate) {
+        window.location.href = params.globalVars.thisUrl + 'product/search/' + cate
+    }
+
     return (
         <>
             <Head title="Welcome" />
             <AuthenticatedLayout user={params.auth} info={params.info} globalVars={params.globalVars} productos={params.productos} categorias={params.categorias} >
                 <MyCarousel promos={params.promos} globalVars={params.globalVars}></MyCarousel>
                 {/*Cards categorias*/}
-                <div  style={{ marginTop: '0.4em' }}>
+                <div style={{ marginTop: '0.4em' }}>
                     <div style={{ display: window.screen.width < 600 ? 'none' : '' }}>
                         <CategoriesCarouselLg info={params.info} cates={params.categorias} globalVars={params.globalVars} ></CategoriesCarouselLg>
                     </div>
@@ -133,7 +138,10 @@ export default function Welcome(params) {
                     <div>
                         {params.categorias.map((it, index) => {
                             return (
-                                <SuggestedProducts key={it.id} categoria={it.nombre} productos={matrix[index]} globalVars={params.globalVars} />
+                                <div key={index}>
+                                    <SuggestedProducts key={it.id} categoria={it.nombre} productos={matrix[index]} globalVars={params.globalVars} />
+                                    <a onClick={() => goCategoria(it.nombre)} className='btn btn-link'>Ver más {it.nombre}</a>
+                                </div>
                             )
                         })}
                     </div>

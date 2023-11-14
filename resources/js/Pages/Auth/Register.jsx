@@ -91,7 +91,7 @@ export default function Register(params) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="password" value="Contraseña (Se usará para ingresar a tu cuenta en nuestra página web)" />
+                            <InputLabel htmlFor="password" value="Contraseña" />
                             <TextInput
                                 id="password"
                                 type="password"
